@@ -12,7 +12,7 @@ Useful for interactive keyboard-driven games.
 Class {
 	#name : #WindowAwareMorph,
 	#superclass : #Morph,
-	#category : #'SWF-Components-Morphic'
+	#category : #'SWF-Library-Morphic'
 }
 
 { #category : #activation }

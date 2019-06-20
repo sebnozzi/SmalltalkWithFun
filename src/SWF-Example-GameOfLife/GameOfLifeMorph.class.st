@@ -2,6 +2,10 @@
 Main morph used to play ""game of life"".
 
 See class side for examples.
+
+Start with: 
+
+GameOfLifeMorph new openInWindow.
 "
 Class {
 	#name : #GameOfLifeMorph,
@@ -12,7 +16,7 @@ Class {
 		'startStopButton',
 		'stepButton'
 	],
-	#category : #'SWF-GameOfLife-Morphic'
+	#category : #'SWF-Example-GameOfLife-Morphic'
 }
 
 { #category : #examples }
@@ -29,6 +33,11 @@ GameOfLifeMorph >> cellClicked: cellPosition [
 				ifFalse: [ gridMorph removeColorAt: cellPosition ]	
 ]
 
+{ #category : #'default-values' }
+GameOfLifeMorph >> cellSize [
+	^ 30
+]
+
 { #category : #'event-handling' }
 GameOfLifeMorph >> clearClicked [
 	UIManager default confirm: 'This will remove all cells. Are you sure?' label: 'Clear cells'.
@@ -36,7 +45,7 @@ GameOfLifeMorph >> clearClicked [
 
 { #category : #'default-values' }
 GameOfLifeMorph >> gridSize [
-	^ 10@5
+	^ 10
 ]
 
 { #category : #initialization }
@@ -88,8 +97,8 @@ GameOfLifeMorph >> initializeButtons [
 { #category : #initialization }
 GameOfLifeMorph >> initializeGridMorph [
 	gridMorph := GridMorph new
-		cellSize: 20@30;
-		beRectangular: (self gridSize x) by: (self gridSize y);
+		cellSize: self cellSize;
+		gridSize: self gridSize;
 		yourself.
 	gridMorph whenCellClickedDo: [ :cellPos | self cellClicked: cellPos ]
 ]

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'game'
 	],
-	#category : #'SWF-GameOfLife-Tests'
+	#category : #'SWF-Example-GameOfLife-Tests'
 }
 
 { #category : #fixtures }

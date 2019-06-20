@@ -20,7 +20,7 @@ Class {
 		'clickCallback',
 		'keyPressCallback'
 	],
-	#category : #'SWF-Components-Morphic'
+	#category : #'SWF-Library-Morphic'
 }
 
 { #category : #example }

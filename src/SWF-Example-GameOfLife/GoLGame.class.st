@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'cells'
 	],
-	#category : #'SWF-GameOfLife-Model'
+	#category : #'SWF-Example-GameOfLife-Model'
 }
 
 { #category : #accessing }
