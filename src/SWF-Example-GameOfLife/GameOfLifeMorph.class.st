@@ -14,7 +14,8 @@ Class {
 		'gridMorph',
 		'clearButton',
 		'startStopButton',
-		'stepButton'
+		'stepButton',
+		'board'
 	],
 	#category : #'SWF-Example-GameOfLife-Morphic'
 }
@@ -40,9 +41,7 @@ GameOfLifeMorph >> buildUI [
 
 { #category : #'event-handling' }
 GameOfLifeMorph >> cellClicked: cellPosition [
-	(gridMorph colorAt: cellPosition) isNil
-				ifTrue: [ gridMorph cellAt: cellPosition fillWith: (self liveCellColor) ]
-				ifFalse: [ gridMorph removeColorAt: cellPosition ]	
+	self toggleCellAt: cellPosition	
 ]
 
 { #category : #'default-values' }
@@ -52,19 +51,28 @@ GameOfLifeMorph >> cellSize [
 
 { #category : #'event-handling' }
 GameOfLifeMorph >> clearClicked [
-	UIManager default confirm: 'This will remove all cells. Are you sure?' label: 'Clear cells'.
+	| answer |
+	answer := UIManager default
+		confirm: 'This will remove all cells. Are you sure?'
+		label: 'Clear cells'.
+	answer
+		ifTrue: [ board clearCells.
+					 self repaintCells ]
 ]
 
 { #category : #'default-values' }
 GameOfLifeMorph >> gridSize [
-	^ 10
+	^ 10@10
 ]
 
 { #category : #initialization }
 GameOfLifeMorph >> initialize [
 	super initialize.
 	self initializeVisualProperties.
-	self buildUI
+	board := GoLBoard newWithSize: (self gridSize).
+	self buildUI.
+	self repaintCells.
+
 ]
 
 { #category : #initialization }
@@ -131,7 +139,8 @@ GameOfLifeMorph >> makeGridMorph [
 
 { #category : #'event-handling' }
 GameOfLifeMorph >> nextStepClicked [
-	UIManager default inform: 'Next step clicked'.
+	board := board nextIteration.
+	self repaintCells.
 ]
 
 { #category : #windows }
@@ -141,7 +150,24 @@ GameOfLifeMorph >> openInWindow [
 		removeExpandBox.
 ]
 
+{ #category : #initialization }
+GameOfLifeMorph >> repaintCells [
+	gridMorph clearAll.
+	1 to: board rowCount do: [ :y | 
+		1 to: board columnCount do: [ :x | 
+			(board hasCellAt: x @ y)
+				ifTrue: [ gridMorph cellAt: x @ y fillWith: Color lightGreen ] ] ]
+]
+
 { #category : #'event-handling' }
 GameOfLifeMorph >> startStopClicked [
 	UIManager default inform: 'Simulation starting / stopping'.
+]
+
+{ #category : #'event-handling' }
+GameOfLifeMorph >> toggleCellAt: cellPosition [
+	(board hasCellAt: cellPosition) 
+		ifTrue: [ board  removeCellAt: cellPosition ] 
+		ifFalse: [ board putCellAt: cellPosition  ].
+	self repaintCells.
 ]
