@@ -17,6 +17,13 @@ GoLBoard class >> newWithSize: boardSize [
 		size: boardSize.
 ]
 
+{ #category : #'game logic' }
+GoLBoard >> cellPositionsDo: aBlock [
+	1 to: self rowCount do: [ :y | 
+		1 to: self columnCount do: [ :x | 
+			aBlock value: x@y ] ]
+]
+
 { #category : #accessing }
 GoLBoard >> clearCells [
 	cells := Set new.
@@ -39,8 +46,16 @@ GoLBoard >> initialize [
 ]
 
 { #category : #'game logic' }
+GoLBoard >> liveCellsDo: aBlock [
+	cells do: [ :cellPos | aBlock value: cellPos ].
+]
+
+{ #category : #'game logic' }
 GoLBoard >> nextIteration [
-	^ self.
+	| newBoard |
+	newBoard := self class newWithSize: (self size).
+	self liveCellsDo: [ :cellPos | newBoard putCellAt: (cellPos+(1@1)) ].
+	^ newBoard.
 ]
 
 { #category : #accessing }

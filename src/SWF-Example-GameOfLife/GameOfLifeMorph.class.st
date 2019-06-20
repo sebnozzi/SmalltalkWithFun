@@ -15,7 +15,8 @@ Class {
 		'clearButton',
 		'startStopButton',
 		'stepButton',
-		'board'
+		'board',
+		'animating'
 	],
 	#category : #'SWF-Example-GameOfLife-Morphic'
 }
@@ -69,6 +70,7 @@ GameOfLifeMorph >> gridSize [
 GameOfLifeMorph >> initialize [
 	super initialize.
 	self initializeVisualProperties.
+	animating := false.
 	board := GoLBoard newWithSize: (self gridSize).
 	self buildUI.
 	self repaintCells.
@@ -101,6 +103,12 @@ GameOfLifeMorph >> initializeVisualProperties [
 		layoutPolicy: TableLayout new;
 		hResizing: #shrinkWrap;
 		vResizing: #shrinkWrap
+]
+
+{ #category : #'event-handling' }
+GameOfLifeMorph >> iterateOneStep [
+	board := board nextIteration.
+	self repaintCells
 ]
 
 { #category : #'default-values' }
@@ -139,8 +147,7 @@ GameOfLifeMorph >> makeGridMorph [
 
 { #category : #'event-handling' }
 GameOfLifeMorph >> nextStepClicked [
-	board := board nextIteration.
-	self repaintCells.
+	self iterateOneStep
 ]
 
 { #category : #windows }
@@ -153,15 +160,40 @@ GameOfLifeMorph >> openInWindow [
 { #category : #initialization }
 GameOfLifeMorph >> repaintCells [
 	gridMorph clearAll.
-	1 to: board rowCount do: [ :y | 
-		1 to: board columnCount do: [ :x | 
-			(board hasCellAt: x @ y)
-				ifTrue: [ gridMorph cellAt: x @ y fillWith: Color lightGreen ] ] ]
+	board liveCellsDo: [ :cellPos | gridMorph cellAt: cellPos fillWith: Color lightGreen ]
+]
+
+{ #category : #'event-handling' }
+GameOfLifeMorph >> startAnimating [
+	self startStepping.
+	clearButton enabled: false.
+	stepButton enabled: false.
+	startStopButton label: 'Stop'.
 ]
 
 { #category : #'event-handling' }
 GameOfLifeMorph >> startStopClicked [
-	UIManager default inform: 'Simulation starting / stopping'.
+	animating := animating not.
+	self updateAnimationState
+]
+
+{ #category : #'event-handling' }
+GameOfLifeMorph >> step [
+	self iterateOneStep 
+	
+]
+
+{ #category : #'default-values' }
+GameOfLifeMorph >> stepTime [
+	^ 400
+]
+
+{ #category : #'event-handling' }
+GameOfLifeMorph >> stopAnimating [
+	self stopStepping.
+	clearButton enabled: true.
+	stepButton enabled: true.
+	startStopButton label: 'Start'.
 ]
 
 { #category : #'event-handling' }
@@ -170,4 +202,13 @@ GameOfLifeMorph >> toggleCellAt: cellPosition [
 		ifTrue: [ board  removeCellAt: cellPosition ] 
 		ifFalse: [ board putCellAt: cellPosition  ].
 	self repaintCells.
+]
+
+{ #category : #'event-handling' }
+GameOfLifeMorph >> updateAnimationState [
+	animating ifTrue: [
+		self startAnimating.
+	] ifFalse: [ 
+		self stopAnimating.
+	]
 ]
