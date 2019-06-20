@@ -34,6 +34,11 @@ GoLBoard >> columnCount [
 	^ size x
 ]
 
+{ #category : #'as yet unclassified' }
+GoLBoard >> countNeighboursOf: cellPos [
+	^ (self liveNeighboursOf: cellPos) size
+]
+
 { #category : #querying }
 GoLBoard >> hasCellAt: aPoint [ 
 	^ cells includes: aPoint.
@@ -45,9 +50,31 @@ GoLBoard >> initialize [
 	self size: 3@3.
 ]
 
+{ #category : #private }
+GoLBoard >> isValidPosition: pos [
+	^ (pos > (0@0)) 
+		and: [ pos <= ((self columnCount)@(self rowCount)) ]
+]
+
 { #category : #iterating }
 GoLBoard >> liveCellsDo: aBlock [
 	cells do: [ :cellPos | aBlock value: cellPos ].
+]
+
+{ #category : #private }
+GoLBoard >> liveNeighboursOf: cellPos [
+	^ (self neighbourPositionsOf: cellPos) select: [ :pos | self hasCellAt: pos ]
+]
+
+{ #category : #private }
+GoLBoard >> neighbourPositionsOf: pos [
+	| potentialPositions |
+	potentialPositions := { 
+		pos + ((-1)@(-1)). pos + ((0)@(-1)). pos + ((1)@(-1)). 
+		pos + ((-1)@(0)). "                " pos + ((1)@(0)). 
+		pos + ((-1)@(1)).  pos + ((0)@(1)).  pos + ((1)@(1)). 
+	}.
+	^ potentialPositions select: [ :p | self isValidPosition: p ]
 ]
 
 { #category : #'game logic' }
