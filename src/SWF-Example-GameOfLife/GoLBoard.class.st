@@ -17,14 +17,14 @@ GoLBoard class >> newWithSize: boardSize [
 		size: boardSize.
 ]
 
-{ #category : #'game logic' }
+{ #category : #iterating }
 GoLBoard >> cellPositionsDo: aBlock [
 	1 to: self rowCount do: [ :y | 
 		1 to: self columnCount do: [ :x | 
 			aBlock value: x@y ] ]
 ]
 
-{ #category : #accessing }
+{ #category : #actions }
 GoLBoard >> clearCells [
 	cells := Set new.
 ]
@@ -34,7 +34,7 @@ GoLBoard >> columnCount [
 	^ size x
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 GoLBoard >> hasCellAt: aPoint [ 
 	^ cells includes: aPoint.
 ]
@@ -45,7 +45,7 @@ GoLBoard >> initialize [
 	self size: 3@3.
 ]
 
-{ #category : #'game logic' }
+{ #category : #iterating }
 GoLBoard >> liveCellsDo: aBlock [
 	cells do: [ :cellPos | aBlock value: cellPos ].
 ]
@@ -58,12 +58,12 @@ GoLBoard >> nextIteration [
 	^ newBoard.
 ]
 
-{ #category : #accessing }
+{ #category : #actions }
 GoLBoard >> putCellAt: aPoint [ 
 	cells add: aPoint
 ]
 
-{ #category : #accessing }
+{ #category : #actions }
 GoLBoard >> removeCellAt: aPoint [ 
 	cells remove: aPoint
 ]
