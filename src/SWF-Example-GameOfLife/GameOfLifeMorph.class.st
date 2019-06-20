@@ -26,6 +26,18 @@ GameOfLifeMorph class >> openInWindow [
 
 ]
 
+{ #category : #initialization }
+GameOfLifeMorph >> buildUI [
+	| buttonsRow mainContainer |
+	buttonsRow := self makeButtonsRow.
+	gridMorph := self makeGridMorph.
+	mainContainer := AlignmentMorph
+		inAColumn:
+			{gridMorph.
+			buttonsRow}.
+	self addMorph: mainContainer
+]
+
 { #category : #'event-handling' }
 GameOfLifeMorph >> cellClicked: cellPosition [
 	(gridMorph colorAt: cellPosition) isNil
@@ -50,29 +62,9 @@ GameOfLifeMorph >> gridSize [
 
 { #category : #initialization }
 GameOfLifeMorph >> initialize [
-	| buttonsRow layoutColumn |
 	super initialize.
-	self color: Color lightGray.
-	self layoutPolicy: (TableLayout new);
-		hResizing: #shrinkWrap;
-		vResizing: #shrinkWrap.
-	self initializeButtons.
-	buttonsRow := AlignmentMorph
-		inARow:
-			{clearButton.
-			stepButton.
-			startStopButton}.
-	buttonsRow
-		hResizing: #spaceFill;
-		listCentering: #center;
-		cellInset: 50;
-		layoutInset: 10 @ 10.
-	self initializeGridMorph.
-	layoutColumn := AlignmentMorph
-		inAColumn:
-			{gridMorph.
-			buttonsRow}.
-	self addMorph: layoutColumn
+	self initializeVisualProperties.
+	self buildUI
 ]
 
 { #category : #initialization }
@@ -95,18 +87,46 @@ GameOfLifeMorph >> initializeButtons [
 ]
 
 { #category : #initialization }
-GameOfLifeMorph >> initializeGridMorph [
-	gridMorph := GridMorph new
-		cellSize: self cellSize;
-		gridSize: self gridSize;
-		yourself.
-	gridMorph whenCellClickedDo: [ :cellPos | self cellClicked: cellPos ]
+GameOfLifeMorph >> initializeVisualProperties [
+	self color: Color lightGray.
+	self
+		layoutPolicy: TableLayout new;
+		hResizing: #shrinkWrap;
+		vResizing: #shrinkWrap
 ]
 
 { #category : #'default-values' }
 GameOfLifeMorph >> liveCellColor [
 	"Color fromString: '5194FC'"
 	^ Color lightGreen
+]
+
+{ #category : #initialization }
+GameOfLifeMorph >> makeButtonsRow [
+	| buttonsRow |
+	self initializeButtons.
+	buttonsRow := AlignmentMorph
+		inARow:
+			{clearButton.
+			stepButton.
+			startStopButton}.
+	buttonsRow
+		hResizing: #spaceFill;
+		listCentering: #center;
+		cellInset: 50;
+		layoutInset: 10 @ 10.
+	^ buttonsRow
+]
+
+{ #category : #initialization }
+GameOfLifeMorph >> makeGridMorph [
+	| gm |
+	gm := GridMorph new
+		cellSize: self cellSize;
+		gridSize: self gridSize;
+		yourself.
+	gm whenCellClickedDo: [ :cellPos | self cellClicked: cellPos ].
+	^ gm
 ]
 
 { #category : #'event-handling' }
