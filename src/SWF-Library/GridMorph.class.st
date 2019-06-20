@@ -229,8 +229,10 @@ GridMorph >> cellAt: position showImage: aFormImage [
 	self assert: (position isKindOf: Point).
 	self assert: (aFormImage isKindOf: Form) description: 'Image should be instance of Form'.
 	
-	imgDict at: position put: aFormImage.
-	self changed.
+	self ifValidPosition: position do: [
+		imgDict at: position put: aFormImage.
+		self changed
+	]
 ]
 
 { #category : #private }

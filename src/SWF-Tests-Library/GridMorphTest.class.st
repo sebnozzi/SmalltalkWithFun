@@ -195,6 +195,15 @@ GridMorphTest >> testImageAt [
 	self assert: (gm imageAt: 2@2) equals: nil.
 ]
 
+{ #category : #'tests-actions-images' }
+GridMorphTest >> testImageInsideBoundaries [
+	| form |
+	form := Form new.
+	gm := self gridMorph2x2.
+	gm cellAt: 3@2 showImage: form.
+	self assert: (gm imageAt: 3@2) equals: nil.
+]
+
 { #category : #'tests-private' }
 GridMorphTest >> testIsValidPosition [
 	gm := self gridMorph2x2.
