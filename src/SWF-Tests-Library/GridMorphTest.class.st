@@ -115,6 +115,15 @@ GridMorphTest >> testColorAt [
 	self assert: (gm colorAt: 1@1) equals: nil.
 ]
 
+{ #category : #'tests-actions-colors' }
+GridMorphTest >> testColorInsideBoundaries [
+	gm := self gridMorph2x2.
+	gm cellAt: (-1)@(-2) fillWith: (Color red).
+	gm cellAt: 3@2 fillWith: (Color red).
+	self assert: (gm colorAt: (-1)@(-2)) equals: nil.
+	self assert: (gm colorAt: 3@2) equals: nil.
+]
+
 { #category : #'tests-private' }
 GridMorphTest >> testColumnBorderOffsets [
 	| positions |
@@ -137,6 +146,15 @@ GridMorphTest >> testGridSize [
 	self assert: (gm columnCount) equals: 10.
 	self assert: (gm rowCount) equals: 10.
 
+]
+
+{ #category : #test }
+GridMorphTest >> testIfValidPositionDo [
+	| passed |
+	passed := true.
+	gm := self gridMorph2x2.
+	gm ifValidPosition: 3@2 do: [ passed := false ].
+	self assert: passed description: 'Should not have executed block'.
 ]
 
 { #category : #'tests-event handling' }
@@ -175,6 +193,18 @@ GridMorphTest >> testImageAt [
 	gm cellAt: 1@1 showImage: form.
 	self assert: (gm imageAt: 1@1) equals: form.
 	self assert: (gm imageAt: 2@2) equals: nil.
+]
+
+{ #category : #'tests-private' }
+GridMorphTest >> testIsValidPosition [
+	gm := self gridMorph2x2.
+	"Test some valid ones"
+	self assert: (gm isValidPosition: 1@1).
+	self assert: (gm isValidPosition: 2@2).
+	"Test some invalid ones"
+	self assert: (gm isValidPosition: 0@0) equals: false.
+	self assert: (gm isValidPosition: 3@3) equals: false.
+
 ]
 
 { #category : #'tests-accessing' }

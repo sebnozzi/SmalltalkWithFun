@@ -217,8 +217,11 @@ GridMorph >> cellAt: position fillWith: aColor [
 	self assert: (position isKindOf: Point).
 	self assert: (aColor isKindOf: Color) description: 'Parameter should be instance of Color'.
 	
-	colorDict at: position put: aColor.
-	self changed.
+	self ifValidPosition: position do: [ 
+		colorDict at: position put: aColor.
+		self changed.
+	].
+
 ]
 
 { #category : #'actions-images' }
@@ -394,6 +397,12 @@ GridMorph >> handlesMouseDown: evt [
 	^ clickCallback notNil
 ]
 
+{ #category : #private }
+GridMorph >> ifValidPosition: pos do: block [
+	(self isValidPosition: pos) ifTrue: [ block value ].
+
+]
+
 { #category : #'event handling' }
 GridMorph >> ignoreClicks [
 	clickCallback := nil
@@ -425,6 +434,12 @@ GridMorph >> initialize [
 	keyPressCallback := nil.
 
 	self borderWidth: 1.
+]
+
+{ #category : #private }
+GridMorph >> isValidPosition: pos [
+	^ (pos > (0@0)) 
+		and: [ pos <= ((self columnCount)@(self rowCount)) ]
 ]
 
 { #category : #'private-event-handling' }
