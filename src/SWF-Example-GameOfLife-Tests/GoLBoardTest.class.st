@@ -10,9 +10,54 @@ Class {
 	#category : #'SWF-Example-GameOfLife-Tests-Model'
 }
 
+{ #category : #assertions }
+GoLBoardTest >> assertBoard: board hasLiveCellAt: position [ 
+	self assert: (board hasCellAt: position) 
+		description: ('Board should have live cell at {1}' format: {position})
+]
+
+{ #category : #assertions }
+GoLBoardTest >> assertBoard: board hasNoCellAt: position [ 
+	self deny: (board hasCellAt: position) 
+		description: ('Board should have NO live cell at {1}' format: {position})
+]
+
 { #category : #fixtures }
 GoLBoardTest >> board3x3 [
 	^ GoLBoard newWithSize: 3 @ 3
+]
+
+{ #category : #fixtures }
+GoLBoardTest >> boardWithLiveCellAt: pos [
+	| board |
+	board := GoLBoard new size: 3@3.
+	board putCellAt: pos.
+	^ board
+]
+
+{ #category : #'test-game-logic' }
+GoLBoardTest >> testCellSurviving2N [
+	"Cell survives if it has 2 or 3 neighbours"
+	b := self boardWithLiveCellAt: 2@2.
+	"Add 2 neighbours"
+	b putCellAt: 2@3.
+	b putCellAt: 1@1.
+	b := b nextIteration.
+	"Then ..."
+	self assertBoard: b hasLiveCellAt: 2@2.
+]
+
+{ #category : #'test-game-logic' }
+GoLBoardTest >> testCellSurviving3N [
+	"Cell survives if it has 2 or 3 neighbours"
+	b := self boardWithLiveCellAt: 2@2.
+	"Add 3 neighbours"
+	b putCellAt: 2@3.
+	b putCellAt: 1@1.
+	b putCellAt: 3@2.
+	b := b nextIteration.
+	"Then ..."
+	self assertBoard: b hasLiveCellAt: 2@2.
 ]
 
 { #category : #'tests-actions' }
@@ -29,6 +74,47 @@ GoLBoardTest >> testCountNeighboursOf [
 	b putCellAt: 1 @ 1.
 	b putCellAt: 3 @ 3.
 	self assert: (b countNeighboursOf: 2@2) equals: 2.
+]
+
+{ #category : #'test-game-logic' }
+GoLBoardTest >> testDyingOfIsolation0N [
+	"Dies of isolation if it has 0 or 1 neighbours"
+	b := self boardWithLiveCellAt: 2@2.
+	"Add no neighbours"
+	b := b nextIteration.
+	"Then ..."
+	self assertBoard: b hasNoCellAt: 2@2.
+]
+
+{ #category : #'test-game-logic' }
+GoLBoardTest >> testDyingOfIsolation1N [
+	"Dies of isolation if it has 0 or 1 neighbours"
+	b := self boardWithLiveCellAt: 2@2.
+	"Add 1 neighbour"
+	b putCellAt: 1@1.
+	b := b nextIteration.
+	"Then ..."
+	self assertBoard: b hasNoCellAt: 2@2.
+]
+
+{ #category : #'test-game-logic' }
+GoLBoardTest >> testDyingOfOvercrowding [
+	"Cell dies of overcrowding if it has 4 or more neighbours"
+	| possibleNeighbours |
+	possibleNeighbours := { 
+		1@1. 2@1. 3@1.
+		1@2. "  " 3@2.
+		1@3. 2@3. 3@3 }.
+	4 to: 8 do: [ :amount || neighbourPositions | 
+		b := self boardWithLiveCellAt: 2@2.
+		"Add neighbours"
+		neighbourPositions := possibleNeighbours first: amount.
+		neighbourPositions do: [ :pos | b putCellAt: pos ].
+		b := b nextIteration.
+		"Then ..."
+		self assertBoard: b hasNoCellAt: 2@2.
+	].
+
 ]
 
 { #category : #'tests-private' }
@@ -59,6 +145,19 @@ GoLBoardTest >> testNeighbourPositionsOf [
 	self assert: (np includes: 2@2).
 	self assert: (np includes: 1@2).
 
+]
+
+{ #category : #'test-game-logic' }
+GoLBoardTest >> testNewCellBeingBorn [
+	"A new cell is born in an empty space with exactly 3 neighbours"
+	b := self board3x3.
+	"Add neighbours"
+	b putCellAt: 1@1.
+	b putCellAt: 3@2.
+	b putCellAt: 2@3.
+	b := b nextIteration.
+	"Then ..."
+	self assertBoard: b hasLiveCellAt: 2@2.
 ]
 
 { #category : #'tests-actions' }

@@ -34,7 +34,23 @@ GoLBoard >> columnCount [
 	^ size x
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
+GoLBoard >> computeBirthAt: pos for: newBoard [
+	"A new cell might be born at this position"
+	| amount |
+	amount := (self countNeighboursOf: pos).
+	(amount = 3) ifTrue: [ newBoard putCellAt: pos ].
+]
+
+{ #category : #private }
+GoLBoard >> computeSurvivalAt: pos for: newBoard [
+	"An existing cell might survive to the next iteration at this position"
+	| amount |
+	amount := (self countNeighboursOf: pos).
+	(#(2 3) includes: amount) ifTrue: [ newBoard putCellAt: pos ].
+]
+
+{ #category : #private }
 GoLBoard >> countNeighboursOf: cellPos [
 	^ (self liveNeighboursOf: cellPos) size
 ]
@@ -81,7 +97,11 @@ GoLBoard >> neighbourPositionsOf: pos [
 GoLBoard >> nextIteration [
 	| newBoard |
 	newBoard := self class newWithSize: (self size).
-	self liveCellsDo: [ :cellPos | newBoard putCellAt: (cellPos+(1@1)) ].
+	self cellPositionsDo: [ :pos | 
+		(self hasCellAt: pos) 
+			ifTrue: [ self computeSurvivalAt: pos for: newBoard ] 
+			ifFalse: [ self computeBirthAt: pos for: newBoard ].
+	].
 	^ newBoard.
 ]
 
