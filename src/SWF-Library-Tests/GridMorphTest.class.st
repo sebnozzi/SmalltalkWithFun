@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'gm'
 	],
-	#category : #'SWF-Tests-Library-Morphic'
+	#category : #'SWF-Library-Tests-Morphic'
 }
 
 { #category : #fixtures }
