@@ -1,9 +1,9 @@
 "
-Example project for the ""game-of-life"".
+Example of ""game-of-life"".
 
-If you want to interact / play with it, see inside ""Morphic"".
+For opening a GUI, see inside of ""Morphic"".
 
-If you want to inspect the model and tests, go to ""Model"" and ""Tests"".
+For exploring the model and its tests, see inside of ""Model"".
 "
 Class {
 	#name : #ManifestSWFExampleGameOfLife,

@@ -1,5 +1,5 @@
 "
-A GoLBoardTest is a test class for testing the behavior of GoLBoard
+Tests for the game-of-life model
 "
 Class {
 	#name : #GoLBoardTest,
@@ -35,7 +35,7 @@ GoLBoardTest >> boardWithLiveCellAt: pos [
 	^ board
 ]
 
-{ #category : #'test-game-logic' }
+{ #category : #'tests-game-logic' }
 GoLBoardTest >> testCellSurviving2N [
 	"Cell survives if it has 2 or 3 neighbours"
 	b := self boardWithLiveCellAt: 2@2.
@@ -47,7 +47,7 @@ GoLBoardTest >> testCellSurviving2N [
 	self assertBoard: b hasLiveCellAt: 2@2.
 ]
 
-{ #category : #'test-game-logic' }
+{ #category : #'tests-game-logic' }
 GoLBoardTest >> testCellSurviving3N [
 	"Cell survives if it has 2 or 3 neighbours"
 	b := self boardWithLiveCellAt: 2@2.
@@ -76,7 +76,7 @@ GoLBoardTest >> testCountNeighboursOf [
 	self assert: (b countNeighboursOf: 2@2) equals: 2.
 ]
 
-{ #category : #'test-game-logic' }
+{ #category : #'tests-game-logic' }
 GoLBoardTest >> testDyingOfIsolation0N [
 	"Dies of isolation if it has 0 or 1 neighbours"
 	b := self boardWithLiveCellAt: 2@2.
@@ -86,7 +86,7 @@ GoLBoardTest >> testDyingOfIsolation0N [
 	self assertBoard: b hasNoCellAt: 2@2.
 ]
 
-{ #category : #'test-game-logic' }
+{ #category : #'tests-game-logic' }
 GoLBoardTest >> testDyingOfIsolation1N [
 	"Dies of isolation if it has 0 or 1 neighbours"
 	b := self boardWithLiveCellAt: 2@2.
@@ -97,7 +97,7 @@ GoLBoardTest >> testDyingOfIsolation1N [
 	self assertBoard: b hasNoCellAt: 2@2.
 ]
 
-{ #category : #'test-game-logic' }
+{ #category : #'tests-game-logic' }
 GoLBoardTest >> testDyingOfOvercrowding [
 	"Cell dies of overcrowding if it has 4 or more neighbours"
 	| possibleNeighbours |
@@ -147,7 +147,7 @@ GoLBoardTest >> testNeighbourPositionsOf [
 
 ]
 
-{ #category : #'test-game-logic' }
+{ #category : #'tests-game-logic' }
 GoLBoardTest >> testNewCellBeingBorn [
 	"A new cell is born in an empty space with exactly 3 neighbours"
 	b := self board3x3.

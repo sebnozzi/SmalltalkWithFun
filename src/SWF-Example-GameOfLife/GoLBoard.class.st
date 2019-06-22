@@ -1,5 +1,10 @@
 "
-Model for a game-of-life
+Model for a game-of-life simulation.
+
+A board has a certain dimension/size, contains cells at certain positions,
+and can be asked to compute its next iteration.
+
+The next iteration is given as a new board (it does *not* mutate in-place).
 "
 Class {
 	#name : #GoLBoard,
