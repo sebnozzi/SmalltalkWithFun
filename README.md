@@ -27,7 +27,7 @@ Open a _System Browser_ and explore the classes in packages:
 Or play around with a "game-of-life" implementation by evaluating:
 
 ```smalltalk
-GameOfLifeMorph new openInWorld.
+GameOfLifeMorph play.
 ```
 
 Then you can play with the "game-of-life" simulator:
