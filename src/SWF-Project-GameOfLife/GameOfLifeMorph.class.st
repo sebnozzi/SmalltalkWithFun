@@ -105,7 +105,7 @@ GameOfLifeMorph >> initializeVisualProperties [
 		vResizing: #shrinkWrap
 ]
 
-{ #category : #'event-handling' }
+{ #category : #updating }
 GameOfLifeMorph >> iterateOneStep [
 	board := board nextIteration.
 	self repaintCells
@@ -157,13 +157,13 @@ GameOfLifeMorph >> openInWindow [
 		removeExpandBox.
 ]
 
-{ #category : #initialization }
+{ #category : #updating }
 GameOfLifeMorph >> repaintCells [
 	gridMorph clearAll.
 	board liveCellsDo: [ :cellPos | gridMorph cellAt: cellPos fillWith: Color lightGreen ]
 ]
 
-{ #category : #'event-handling' }
+{ #category : #'stepping-animation' }
 GameOfLifeMorph >> startAnimating [
 	self startStepping.
 	clearButton enabled: false.
@@ -190,12 +190,12 @@ GameOfLifeMorph >> step [
 	
 ]
 
-{ #category : #'default-values' }
+{ #category : #'stepping-animation' }
 GameOfLifeMorph >> stepTime [
 	^ 400
 ]
 
-{ #category : #'event-handling' }
+{ #category : #'stepping-animation' }
 GameOfLifeMorph >> stopAnimating [
 	self stopStepping.
 	clearButton enabled: true.
@@ -203,7 +203,7 @@ GameOfLifeMorph >> stopAnimating [
 	startStopButton label: 'Start'.
 ]
 
-{ #category : #'event-handling' }
+{ #category : #updating }
 GameOfLifeMorph >> toggleCellAt: cellPosition [
 	(board hasCellAt: cellPosition) 
 		ifTrue: [ board  removeCellAt: cellPosition ] 
@@ -211,7 +211,7 @@ GameOfLifeMorph >> toggleCellAt: cellPosition [
 	self repaintCells.
 ]
 
-{ #category : #'event-handling' }
+{ #category : #'stepping-animation' }
 GameOfLifeMorph >> updateAnimationState [
 	animating ifTrue: [
 		self startAnimating.
