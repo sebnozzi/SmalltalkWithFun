@@ -18,7 +18,7 @@ Class {
 		'board',
 		'animating'
 	],
-	#category : #'SWF-Example-GameOfLife-Morphic'
+	#category : #'SWF-Project-GameOfLife-Morphic'
 }
 
 { #category : #examples }

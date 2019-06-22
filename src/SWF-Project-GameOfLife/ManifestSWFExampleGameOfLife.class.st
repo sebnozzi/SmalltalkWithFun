@@ -8,7 +8,7 @@ For exploring the model and its tests, see inside of ""Model"".
 Class {
 	#name : #ManifestSWFExampleGameOfLife,
 	#superclass : #PackageManifest,
-	#category : #'SWF-Example-GameOfLife-Manifest'
+	#category : #'SWF-Project-GameOfLife-Manifest'
 }
 
 { #category : #'code-critics' }

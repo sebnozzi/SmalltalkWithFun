@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'b'
 	],
-	#category : #'SWF-Example-GameOfLife-Model'
+	#category : #'SWF-Project-GameOfLife-Model'
 }
 
 { #category : #assertions }

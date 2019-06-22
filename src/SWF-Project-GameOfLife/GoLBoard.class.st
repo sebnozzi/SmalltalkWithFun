@@ -13,7 +13,7 @@ Class {
 		'size',
 		'cells'
 	],
-	#category : #'SWF-Example-GameOfLife-Model'
+	#category : #'SWF-Project-GameOfLife-Model'
 }
 
 { #category : #'instance creation' }

@@ -19,10 +19,10 @@ BaselineOfSWF >> baseline: spec [
 			spec 
 				package: 'SWF-Library';
 				package: 'SWF-Library-Tests' with: [ spec requires: #('SWF-Library') ];
-				package: 'SWF-Example-GameOfLife'	with: [ spec requires: #('SWF-Library') ].
+				package: 'SWF-Project-GameOfLife'	with: [ spec requires: #('SWF-Library') ].
 			"Groups"
 			spec
 				group: 'Library' with: #('SWF-Library' 'SWF-Library-Tests');
-				group: 'GameOfLife' with: #('SWF-Example-GameOfLife').
+				group: 'GameOfLife' with: #('SWF-Project-GameOfLife').
 		]
 ]
