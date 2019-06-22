@@ -22,7 +22,7 @@ Class {
 }
 
 { #category : #examples }
-GameOfLifeMorph class >> openInWindow [
+GameOfLifeMorph class >> play [
 	<example>
 	^ self new openInWindow
 
