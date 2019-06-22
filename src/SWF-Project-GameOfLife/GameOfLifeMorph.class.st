@@ -177,9 +177,16 @@ GameOfLifeMorph >> startStopClicked [
 	self updateAnimationState
 ]
 
-{ #category : #'event-handling' }
+{ #category : #'stepping-animation' }
 GameOfLifeMorph >> step [
-	self iterateOneStep 
+	"Despite my best efforts to prevent it, the Morph starts with stepping ON
+	when opened in a Window. This is a workaround to correct that inconsistent
+	state a-posteriori"
+	animating ifFalse: [ ^ self stopAnimating ].
+	
+	"If we are indeed animating, then iterate one step"
+	self iterateOneStep.
+	
 	
 ]
 
