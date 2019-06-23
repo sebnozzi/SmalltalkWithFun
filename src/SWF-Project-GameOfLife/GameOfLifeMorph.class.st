@@ -186,6 +186,8 @@ GameOfLifeMorph >> step [
 	
 	"If we are indeed animating, then iterate one step"
 	self iterateOneStep.
+	"Stop if there is nothing to animate"
+	(board isEmpty) ifTrue: [ self stopAnimating ]
 	
 	
 ]

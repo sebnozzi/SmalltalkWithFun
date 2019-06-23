@@ -73,6 +73,11 @@ GoLBoard >> initialize [
 	self size: 3@3.
 ]
 
+{ #category : #testing }
+GoLBoard >> isEmpty [
+	^ cells isEmpty
+]
+
 { #category : #private }
 GoLBoard >> isValidPosition: pos [
 	^ (pos > (0@0)) 
