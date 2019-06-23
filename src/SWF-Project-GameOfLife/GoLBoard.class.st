@@ -40,7 +40,7 @@ GoLBoard >> columnCount [
 ]
 
 { #category : #private }
-GoLBoard >> computeBirthAt: pos for: newBoard [
+GoLBoard >> computeCellBirthAt: pos for: newBoard [
 	"A new cell might be born at this position"
 	| amount |
 	amount := (self countNeighboursOf: pos).
@@ -48,11 +48,13 @@ GoLBoard >> computeBirthAt: pos for: newBoard [
 ]
 
 { #category : #private }
-GoLBoard >> computeSurvivalAt: pos for: newBoard [
+GoLBoard >> computeCellSurvivalAt: pos for: newBoard [
 	"An existing cell might survive to the next iteration at this position"
-	| amount |
-	amount := (self countNeighboursOf: pos).
-	(#(2 3) includes: amount) ifTrue: [ newBoard putCellAt: pos ].
+	| neighbourCount |
+	neighbourCount := (self countNeighboursOf: pos).
+	(#(2 3) includes: neighbourCount) ifTrue: [ 
+		newBoard putCellAt: pos 
+	].
 ]
 
 { #category : #private }
@@ -60,7 +62,7 @@ GoLBoard >> countNeighboursOf: cellPos [
 	^ (self liveNeighboursOf: cellPos) size
 ]
 
-{ #category : #querying }
+{ #category : #testing }
 GoLBoard >> hasCellAt: aPoint [ 
 	^ cells includes: aPoint.
 ]
@@ -69,6 +71,11 @@ GoLBoard >> hasCellAt: aPoint [
 GoLBoard >> initialize [
 	super initialize.
 	self size: 3@3.
+]
+
+{ #category : #testing }
+GoLBoard >> isEmpty [
+	^ cells isEmpty
 ]
 
 { #category : #private }
@@ -84,17 +91,19 @@ GoLBoard >> liveCellsDo: aBlock [
 
 { #category : #private }
 GoLBoard >> liveNeighboursOf: cellPos [
-	^ (self neighbourPositionsOf: cellPos) select: [ :pos | self hasCellAt: pos ]
+	^ (self neighbourPositionsOf: cellPos) 
+			select: [ :pos | self hasCellAt: pos ]
 ]
 
 { #category : #private }
 GoLBoard >> neighbourPositionsOf: pos [
-	| potentialPositions |
-	potentialPositions := { 
-		pos + ((-1)@(-1)). pos + ((0)@(-1)). pos + ((1)@(-1)). 
-		pos + ((-1)@(0)). "                " pos + ((1)@(0)). 
-		pos + ((-1)@(1)).  pos + ((0)@(1)).  pos + ((1)@(1)). 
+	| offsets potentialPositions |
+	offsets := { 
+		(-1)@(-1). ( 0)@(-1). ( 1)@(-1). 
+		(-1)@( 0). "======="  ( 1)@( 0). 
+		(-1)@( 1). ( 0)@( 1). ( 1)@( 1).
 	}.
+	potentialPositions := offsets collect: [ :offset | pos + offset ].
 	^ potentialPositions select: [ :p | self isValidPosition: p ]
 ]
 
@@ -104,8 +113,8 @@ GoLBoard >> nextIteration [
 	newBoard := self class newWithSize: (self size).
 	self cellPositionsDo: [ :pos | 
 		(self hasCellAt: pos) 
-			ifTrue: [ self computeSurvivalAt: pos for: newBoard ] 
-			ifFalse: [ self computeBirthAt: pos for: newBoard ].
+			ifTrue: [ self computeCellSurvivalAt: pos for: newBoard ] 
+			ifFalse: [ self computeCellBirthAt: pos for: newBoard ].
 	].
 	^ newBoard.
 ]

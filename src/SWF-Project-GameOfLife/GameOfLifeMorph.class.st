@@ -9,7 +9,7 @@ GameOfLifeMorph new openInWindow.
 "
 Class {
 	#name : #GameOfLifeMorph,
-	#superclass : #WindowAwareMorph,
+	#superclass : #Morph,
 	#instVars : [
 		'gridMorph',
 		'clearButton',
@@ -93,7 +93,7 @@ GameOfLifeMorph >> initializeButtons [
 		newButtonFor: self
 		action: #nextStepClicked
 		label: 'Next'
-		help: 'Iterates world to next step'.
+		help: 'Iterates to next step'.
 ]
 
 { #category : #initialization }
@@ -169,12 +169,12 @@ GameOfLifeMorph >> startAnimating [
 	clearButton enabled: false.
 	stepButton enabled: false.
 	startStopButton label: 'Stop'.
+	animating := true.
 ]
 
 { #category : #'event-handling' }
 GameOfLifeMorph >> startStopClicked [
-	animating := animating not.
-	self updateAnimationState
+	self toggleAnimationState
 ]
 
 { #category : #'stepping-animation' }
@@ -186,6 +186,8 @@ GameOfLifeMorph >> step [
 	
 	"If we are indeed animating, then iterate one step"
 	self iterateOneStep.
+	"Stop if there is nothing to animate"
+	(board isEmpty) ifTrue: [ self stopAnimating ]
 	
 	
 ]
@@ -201,6 +203,16 @@ GameOfLifeMorph >> stopAnimating [
 	clearButton enabled: true.
 	stepButton enabled: true.
 	startStopButton label: 'Start'.
+	animating := false.
+]
+
+{ #category : #'stepping-animation' }
+GameOfLifeMorph >> toggleAnimationState [
+	animating ifTrue: [
+		self stopAnimating.
+	] ifFalse: [ 
+		self startAnimating.
+	]
 ]
 
 { #category : #updating }
@@ -209,13 +221,4 @@ GameOfLifeMorph >> toggleCellAt: cellPosition [
 		ifTrue: [ board  removeCellAt: cellPosition ] 
 		ifFalse: [ board putCellAt: cellPosition  ].
 	self repaintCells.
-]
-
-{ #category : #'stepping-animation' }
-GameOfLifeMorph >> updateAnimationState [
-	animating ifTrue: [
-		self startAnimating.
-	] ifFalse: [ 
-		self stopAnimating.
-	]
 ]

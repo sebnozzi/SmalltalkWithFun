@@ -6,8 +6,9 @@ Depending on that, I change my behaviour.
 If inside of a SystemWindow, then:
 - automatically takes keyboard focus when activated
 - avoids the normal ""keybord focused as long as mouse over Morph"" behaviour
+- removes the ability to ""maximize"" (expand) or resize the window
 
-Useful for interactive keyboard-driven games.
+Useful for interactive fixed-size keyboard-driven games.
 "
 Class {
 	#name : #WindowAwareMorph,

@@ -117,6 +117,14 @@ GoLBoardTest >> testDyingOfOvercrowding [
 
 ]
 
+{ #category : #'test-testing' }
+GoLBoardTest >> testIsEmpty [
+	b := self board3x3.
+	self assert: b isEmpty.
+	b putCellAt: 1@1.
+	self deny: b isEmpty.
+]
+
 { #category : #'tests-private' }
 GoLBoardTest >> testIsValidPosition [
 	b := self board3x3.
