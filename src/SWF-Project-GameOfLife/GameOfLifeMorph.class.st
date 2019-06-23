@@ -169,12 +169,12 @@ GameOfLifeMorph >> startAnimating [
 	clearButton enabled: false.
 	stepButton enabled: false.
 	startStopButton label: 'Stop'.
+	animating := true.
 ]
 
 { #category : #'event-handling' }
 GameOfLifeMorph >> startStopClicked [
-	animating := animating not.
-	self updateAnimationState
+	self toggleAnimationState
 ]
 
 { #category : #'stepping-animation' }
@@ -201,6 +201,16 @@ GameOfLifeMorph >> stopAnimating [
 	clearButton enabled: true.
 	stepButton enabled: true.
 	startStopButton label: 'Start'.
+	animating := false.
+]
+
+{ #category : #'stepping-animation' }
+GameOfLifeMorph >> toggleAnimationState [
+	animating ifTrue: [
+		self stopAnimating.
+	] ifFalse: [ 
+		self startAnimating.
+	]
 ]
 
 { #category : #updating }
@@ -209,13 +219,4 @@ GameOfLifeMorph >> toggleCellAt: cellPosition [
 		ifTrue: [ board  removeCellAt: cellPosition ] 
 		ifFalse: [ board putCellAt: cellPosition  ].
 	self repaintCells.
-]
-
-{ #category : #'stepping-animation' }
-GameOfLifeMorph >> updateAnimationState [
-	animating ifTrue: [
-		self startAnimating.
-	] ifFalse: [ 
-		self stopAnimating.
-	]
 ]
