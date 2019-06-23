@@ -9,7 +9,7 @@ GameOfLifeMorph new openInWindow.
 "
 Class {
 	#name : #GameOfLifeMorph,
-	#superclass : #WindowAwareMorph,
+	#superclass : #Morph,
 	#instVars : [
 		'gridMorph',
 		'clearButton',
@@ -93,7 +93,7 @@ GameOfLifeMorph >> initializeButtons [
 		newButtonFor: self
 		action: #nextStepClicked
 		label: 'Next'
-		help: 'Iterates world to next step'.
+		help: 'Iterates to next step'.
 ]
 
 { #category : #initialization }
