@@ -113,7 +113,6 @@ GameOfLifeMorph >> iterateOneStep [
 
 { #category : #'default-values' }
 GameOfLifeMorph >> liveCellColor [
-	"Color fromString: '5194FC'"
 	^ Color lightGreen
 ]
 
@@ -160,7 +159,8 @@ GameOfLifeMorph >> openInWindow [
 { #category : #updating }
 GameOfLifeMorph >> repaintCells [
 	gridMorph clearAll.
-	board liveCellsDo: [ :cellPos | gridMorph cellAt: cellPos fillWith: Color lightGreen ]
+	board liveCellsDo: [ :cellPos | 
+		gridMorph cellAt: cellPos fillWith: self liveCellColor ]
 ]
 
 { #category : #'stepping-animation' }

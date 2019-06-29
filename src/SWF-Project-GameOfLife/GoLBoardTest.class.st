@@ -65,7 +65,7 @@ GoLBoardTest >> testClearCells [
 	b := self board3x3.
 	b putCellAt: 2@2.
 	b clearCells.
-	self assert: (b hasCellAt: 2@2) equals: false.
+	self deny: (b hasCellAt: 2@2) description: 'There should not be any cell in this board'.
 ]
 
 { #category : #'tests-private' }
@@ -120,9 +120,9 @@ GoLBoardTest >> testDyingOfOvercrowding [
 { #category : #'test-testing' }
 GoLBoardTest >> testIsEmpty [
 	b := self board3x3.
-	self assert: b isEmpty.
+	self assert: b isEmpty description: 'Board should be initially empty'.
 	b putCellAt: 1@1.
-	self deny: b isEmpty.
+	self deny: b isEmpty description: 'Board should NOT be empty after adding cell'.
 ]
 
 { #category : #'tests-private' }
@@ -172,5 +172,5 @@ GoLBoardTest >> testNewCellBeingBorn [
 GoLBoardTest >> testPutCellAt [
 	b := self board3x3.
 	b putCellAt: 2 @ 2.
-	self assert: (b hasCellAt: 2 @ 2)
+	self assert: (b hasCellAt: 2@2) description: 'Cell expected but not found'.
 ]
