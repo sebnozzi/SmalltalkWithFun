@@ -217,8 +217,6 @@ GameOfLifeMorph >> toggleAnimationState [
 
 { #category : #updating }
 GameOfLifeMorph >> toggleCellAt: cellPosition [
-	(board hasCellAt: cellPosition) 
-		ifTrue: [ board  removeCellAt: cellPosition ] 
-		ifFalse: [ board putCellAt: cellPosition  ].
+	board toggleCellAt: cellPosition.
 	self repaintCells.
 ]

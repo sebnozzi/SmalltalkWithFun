@@ -188,3 +188,13 @@ GoLBoardTest >> testRemoveCellAt [
 	b removeCellAt: 2@2.
 	self deny: (b hasCellAt: 2@2) description: 'Cell should have been removed'.
 ]
+
+{ #category : #'tests-actions' }
+GoLBoardTest >> testToggleCellAt [
+	b := self board3x3.
+	b putCellAt: 2@2.
+	b toggleCellAt: 2@2.
+	b toggleCellAt: 1@1.
+	self assert: (b hasCellAt: 1@1) description: 'Should have cell there after toggling'.
+	self deny: (b hasCellAt: 2@2) description: 'Should not have cell there after toggling'.
+]

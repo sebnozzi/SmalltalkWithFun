@@ -146,3 +146,10 @@ GoLBoard >> size: newSize [
 	self clearCells.
 	size := newSize.
 ]
+
+{ #category : #actions }
+GoLBoard >> toggleCellAt: cellPos [ 
+	(self hasCellAt: cellPos) 
+		ifTrue: [ self removeCellAt: cellPos ]
+	 	ifFalse: [ self putCellAt: cellPos ]
+]
