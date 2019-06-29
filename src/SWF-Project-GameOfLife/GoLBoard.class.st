@@ -24,6 +24,7 @@ GoLBoard class >> newWithSize: boardSize [
 
 { #category : #iterating }
 GoLBoard >> cellPositionsDo: aBlock [
+	"Evaluates a block passing each cell position in the board"
 	1 to: self rowCount do: [ :y | 
 		1 to: self columnCount do: [ :x | 
 			aBlock value: x@y ] ]
@@ -63,8 +64,8 @@ GoLBoard >> countNeighboursOf: cellPos [
 ]
 
 { #category : #testing }
-GoLBoard >> hasCellAt: aPoint [ 
-	^ cells includes: aPoint.
+GoLBoard >> hasCellAt: cellPos [ 
+	^ cells includes: cellPos
 ]
 
 { #category : #initialization }
@@ -86,6 +87,7 @@ GoLBoard >> isValidPosition: pos [
 
 { #category : #iterating }
 GoLBoard >> liveCellsDo: aBlock [
+	"Evaluates a block for each live cell, passing its position"
 	cells do: [ :cellPos | aBlock value: cellPos ].
 ]
 
@@ -143,4 +145,11 @@ GoLBoard >> size [
 GoLBoard >> size: newSize [
 	self clearCells.
 	size := newSize.
+]
+
+{ #category : #actions }
+GoLBoard >> toggleCellAt: cellPos [ 
+	(self hasCellAt: cellPos) 
+		ifTrue: [ self removeCellAt: cellPos ]
+	 	ifFalse: [ self putCellAt: cellPos ]
 ]
