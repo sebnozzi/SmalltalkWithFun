@@ -118,6 +118,12 @@ GoLBoardTest >> testDyingOfOvercrowding [
 ]
 
 { #category : #'test-testing' }
+GoLBoardTest >> testHasCellAt [
+	b := self boardWithLiveCellAt: 2@2.
+	self assert: (b hasCellAt: 2@2) description: 'Cell expected at position'
+]
+
+{ #category : #'test-testing' }
 GoLBoardTest >> testIsEmpty [
 	b := self board3x3.
 	self assert: b isEmpty description: 'Board should be initially empty'.
@@ -173,4 +179,12 @@ GoLBoardTest >> testPutCellAt [
 	b := self board3x3.
 	b putCellAt: 2 @ 2.
 	self assert: (b hasCellAt: 2@2) description: 'Cell expected but not found'.
+]
+
+{ #category : #'tests-actions' }
+GoLBoardTest >> testRemoveCellAt [
+	b := self board3x3.
+	b putCellAt: 2@2.
+	b removeCellAt: 2@2.
+	self deny: (b hasCellAt: 2@2) description: 'Cell should have been removed'.
 ]
